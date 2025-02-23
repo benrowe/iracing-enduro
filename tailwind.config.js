@@ -1,20 +1,18 @@
-import defaultTheme from 'tailwindcss/defaultTheme';
+const { iconsPlugin, getIconCollections } = require("@egoist/tailwindcss-icons")
 
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
     content: [
-        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
-        './storage/framework/views/*.php',
-        './resources/**/*.blade.php',
-        './resources/**/*.js',
-        './resources/**/*.vue',
+        "./resources/**/*.blade.php",
     ],
     theme: {
-        extend: {
-            fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
-            },
-        },
+        extend: {},
     },
-    plugins: [],
-};
+    plugins: [
+        require('@tailwindcss/forms'),
+        iconsPlugin({
+            collections: getIconCollections(["mdi"]),
+        })
+    ],
+}
+

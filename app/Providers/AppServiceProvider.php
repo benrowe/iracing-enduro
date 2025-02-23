@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use iRacingPHP\iRacing;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,7 +12,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(iRacing::class, function () {
+            $cfg = config('app.iracing');
+            return new iRacing($cfg['email'], $cfg['password']);
+        });
     }
 
     /**

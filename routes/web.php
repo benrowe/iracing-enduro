@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function (Members $members) {
 
-    $ratings = $members->get();
+    $ratings = $members->getAugmented();
     usort($ratings, function ($a, $b) {
         return $b['irating'] <=> $a['irating'];
     });
@@ -18,8 +18,15 @@ Route::get('/', function (Members $members) {
     return view('welcome', compact('team1', 'team2', 'ratings'));
 });
 
-Route::get('/settings', function () {
-    return view('settings');
+Route::get('/settings', function (Members $members) {
+    return view('settings', [
+        'members' => $members->getAugmented()
+    ]);
+});
+Route::post('/settings/add', function (Members $members, \Illuminate\Http\Request $request) {
+    $members->add($request->memberId);
+    return redirect('/settings');
+
 });
 Route::get('/refresh', function () {
     Cache::forget('members');
