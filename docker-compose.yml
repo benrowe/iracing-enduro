@@ -1,0 +1,39 @@
+
+services:
+
+    ### Workspace Utilities ##################################
+    workspace:
+        container_name: ire_workspace
+        build:
+            network: host
+            dockerfile: ./env/docker/php/Dockerfile
+        volumes:
+            - ./:/application
+        tty: true
+
+    ### PHP-FPM ##############################################
+    php-fpm:
+        container_name: ire_php_fpm
+        build:
+            network: host
+            dockerfile: ./env/docker/php/Dockerfile
+        volumes:
+            - ./:/application:cached
+        expose:
+            - 9000
+        depends_on:
+            - workspace
+    ### NGINX Server #########################################
+    nginx:
+        container_name: ire_nginx
+        build:
+            network: host
+            context: ./env/docker/nginx
+        volumes:
+            - ./:/application:cached
+        ports:
+            - "80:80"
+        depends_on:
+            - php-fpm
+        links:
+            - php-fpm
