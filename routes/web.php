@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use iRacingPHP\iRacing;
 
 Route::get('/', function () {
-    echo '<h1> Same Day Racing Enduro Tools</h1>';
+    echo '<h1> Same Day Racing Enduro Tools!!</h1>';
     echo '<h2>WIP</h2>';
     $members = [
         '121405',
