@@ -16,20 +16,26 @@ Route::get('/', function () {
         '528036',
         '932876'
     ];
-    $cfg = config('app.iracing');
-    $iracing = new iRacing($cfg['email'], $cfg['password']);
-    $rating = [];
-    foreach ($members as $accountId) {
-        $member = $iracing->member->profile(['cust_id' => $accountId]);
 
-        $license = collect($member->license_history)->first(fn ($license) => $license->category === 'sports_car');
 
-        $rating[$accountId] = [
-            'name' => $member->member_info->display_name,
-            'irating' => $license->irating,
-        ];
-    }
+    $rating = \Illuminate\Support\Facades\Cache::rememberForever('members', function () use ($members) {
+        $cfg = config('app.iracing');
+        $iracing = new iRacing($cfg['email'], $cfg['password']);
+        $rating = [];
+        foreach ($members as $accountId) {
+            $member = $iracing->member->profile(['cust_id' => $accountId]);
+
+            $license = collect($member->license_history)->first(fn ($license) => $license->category === 'sports_car');
+
+            $rating[$accountId] = [
+                'name' => $member->member_info->display_name,
+                'irating' => $license->irating,
+            ];
+        }
+        return $rating;
+    });
+
     // build a list of the users irating
 //    $summary = $iracing->member->info();
-    dd($rating);
+    echo '<a href="/refresh">Refresh</a>';
 });
