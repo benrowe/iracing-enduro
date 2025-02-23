@@ -3,5 +3,5 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return 'iracing enduro bot';
+    return 'iracing enduro bot!!';
 });
