@@ -123,4 +123,9 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'iracing' => [
+        'email' => env('IRACING_EMAIL'),
+        'password' => env('IRACING_PASSWORD'),
+    ]
+
 ];

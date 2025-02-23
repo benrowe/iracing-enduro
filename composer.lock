@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "626b9e7ddd47fb7eff9aaa53cce0c9ad",
+    "content-hash": "f8e09b7a23e9c1688b6ce1c235712c3d",
     "packages": [
         {
             "name": "brick/math",
@@ -2108,6 +2108,46 @@
                 }
             ],
             "time": "2024-12-05T17:15:07+00:00"
+        },
+        {
+            "name": "mwgg/iracing-php",
+            "version": "v1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mwgg/iracing-php.git",
+                "reference": "69ad58e8003b7f1e8228d58750d357eb174557af"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mwgg/iracing-php/zipball/69ad58e8003b7f1e8228d58750d357eb174557af",
+                "reference": "69ad58e8003b7f1e8228d58750d357eb174557af",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.4",
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "iRacingPHP\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "mwgg"
+                }
+            ],
+            "description": "iRacing Data API wrapper for PHP",
+            "support": {
+                "issues": "https://github.com/mwgg/iracing-php/issues",
+                "source": "https://github.com/mwgg/iracing-php/tree/v1.6.0"
+            },
+            "time": "2023-08-19T07:59:10+00:00"
         },
         {
             "name": "nesbot/carbon",
