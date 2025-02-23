@@ -4,6 +4,17 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use iRacingPHP\iRacing;
 
+function printTeam(string $label, array $list1, mixed $rating): void
+{
+    echo "$label:<br>";
+    echo '<ul>';
+    foreach ($list1 as $acc => $value) {
+        echo '<li>' . $rating[$acc]['name'] . ' (' . $value . ')</li>';
+    }
+    echo '</ul>';
+    echo "Avg: " . (array_sum($list1) / count($list1)) . "<br><br>";
+}
+
 Route::get('/', function () {
     echo '<h1> Same Day Racing Enduro Tools!!</h1>';
     echo '<h2>WIP</h2>';
@@ -41,23 +52,10 @@ Route::get('/', function () {
 
     list($list1, $list2) = splitListWithIndexes($nums);
 
-    echo "Team 1:<br>";
-    echo '<ul>';
-    foreach ($list1 as $acc => $value) {
-        echo '<li>' . $rating[$acc]['name'] . ' ('.$value.')</li>';
-    }
-    echo '</ul>';
-    echo "Avg: " . (array_sum($list1) / count($list1)) . "<br><br>";
 
-    echo "List 2:<br>";
-    foreach ($list2 as $acc => $value) {
-        echo '<li>' . $rating[$acc]['name'] . ' ('.$value.')</li>';
-    }
-    echo "Avg: " . (array_sum($list2) / count($list2)) . "<br><br>";
+    printTeam('Team 1', $list1, $rating);
+    printTeam('Team 2', $list2, $rating);
 
-
-    // build a list of the users irating
-//    $summary = $iracing->member->info();
     echo '<a href="/refresh">Refresh</a>';
 });
 
