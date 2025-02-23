@@ -1,17 +1,19 @@
 {
-    "private": true,
     "type": "module",
+    "license": "UNLICENSED",
     "scripts": {
-        "build": "vite build",
-        "dev": "vite"
+        "build": "tailwindcss -i ./resources/css/app.css -o ./public/dist/output.css --watch",
+        "build:ci": "tailwindcss -i ./resources/css/app.css -o ./public/dist/output.css --minify",
+        "hot-reload": "node bin/hot-reload.js"
     },
     "devDependencies": {
-        "autoprefixer": "^10.4.20",
-        "axios": "^1.7.4",
-        "concurrently": "^9.0.1",
-        "laravel-vite-plugin": "^1.2.0",
-        "postcss": "^8.4.47",
-        "tailwindcss": "^3.4.13",
-        "vite": "^6.0.11"
+        "livereload": "^0.9.3",
+        "tailwindcss": "^3.4.7"
+    },
+    "dependencies": {
+        "@egoist/tailwindcss-icons": "^1.8.1",
+        "@iconify-json/mdi": "^1.2.1",
+        "@iconify/tailwind": "^1.1.2",
+        "@tailwindcss/forms": "^0.5.7"
     }
 }

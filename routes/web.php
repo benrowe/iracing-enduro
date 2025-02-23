@@ -16,8 +16,7 @@ function printTeam(string $label, array $list1, mixed $rating): void
 }
 
 Route::get('/', function () {
-    echo '<h1> Same Day Racing Enduro Tools!!</h1>';
-    echo '<h2>WIP</h2>';
+
     $members = [
         '121405',
         '480098',
@@ -30,7 +29,7 @@ Route::get('/', function () {
     ];
 
 
-    $rating = Cache::rememberForever('members', function () use ($members) {
+    $ratings = Cache::rememberForever('members', function () use ($members) {
         $cfg = config('app.iracing');
         $iracing = new iRacing($cfg['email'], $cfg['password']);
         $rating = [];
@@ -47,16 +46,15 @@ Route::get('/', function () {
         }
         return $rating;
     });
+    usort($ratings, function ($a, $b) {
+        return $b['irating'] <=> $a['irating'];
+    });
     // Example usage
-    $nums = array_map(fn ($rat) => $rat['irating'], $rating);
+    $nums = array_map(fn ($rat) => $rat['irating'], $ratings);
 
-    list($list1, $list2) = splitListWithIndexes($nums);
+    [$team1, $team2] = splitListWithIndexes($nums);
 
-
-    printTeam('Team 1', $list1, $rating);
-    printTeam('Team 2', $list2, $rating);
-
-    echo '<a href="/refresh">Refresh</a>';
+    return view('welcome', compact('team1', 'team2', 'ratings'));
 });
 
 Route::get('/refresh', function () {
