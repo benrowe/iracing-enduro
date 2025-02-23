@@ -1,51 +1,12 @@
 <?php
 
+use App\Services\Members;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
-use iRacingPHP\iRacing;
 
-function printTeam(string $label, array $list1, mixed $rating): void
-{
-    echo "$label:<br>";
-    echo '<ul>';
-    foreach ($list1 as $acc => $value) {
-        echo '<li>' . $rating[$acc]['name'] . ' (' . $value . ')</li>';
-    }
-    echo '</ul>';
-    echo "Avg: " . (array_sum($list1) / count($list1)) . "<br><br>";
-}
+Route::get('/', function (Members $members) {
 
-Route::get('/', function () {
-
-    $members = [
-        '121405',
-        '480098',
-        '135304',
-        '900334',
-        '52908',
-        '20489',
-        '528036',
-        '932876'
-    ];
-
-
-    $ratings = Cache::rememberForever('members', function () use ($members) {
-        $cfg = config('app.iracing');
-        $iracing = new iRacing($cfg['email'], $cfg['password']);
-        $rating = [];
-        foreach ($members as $accountId) {
-
-            $member = $iracing->member->profile(['cust_id' => $accountId]);
-
-            $license = collect($member->license_history)->first(fn ($license) => $license->category === 'sports_car');
-
-            $rating[$accountId] = [
-                'name' => $member->member_info->display_name,
-                'irating' => $license->irating,
-            ];
-        }
-        return $rating;
-    });
+    $ratings = $members->get();
     usort($ratings, function ($a, $b) {
         return $b['irating'] <=> $a['irating'];
     });
@@ -57,6 +18,9 @@ Route::get('/', function () {
     return view('welcome', compact('team1', 'team2', 'ratings'));
 });
 
+Route::get('/settings', function () {
+    return view('settings');
+});
 Route::get('/refresh', function () {
     Cache::forget('members');
     return redirect('/');
