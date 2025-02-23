@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use iRacingPHP\iRacing;
 
@@ -18,11 +19,12 @@ Route::get('/', function () {
     ];
 
 
-    $rating = \Illuminate\Support\Facades\Cache::rememberForever('members', function () use ($members) {
+    $rating = Cache::rememberForever('members', function () use ($members) {
         $cfg = config('app.iracing');
         $iracing = new iRacing($cfg['email'], $cfg['password']);
         $rating = [];
         foreach ($members as $accountId) {
+
             $member = $iracing->member->profile(['cust_id' => $accountId]);
 
             $license = collect($member->license_history)->first(fn ($license) => $license->category === 'sports_car');
@@ -34,8 +36,14 @@ Route::get('/', function () {
         }
         return $rating;
     });
+    dump($rating);
 
     // build a list of the users irating
 //    $summary = $iracing->member->info();
     echo '<a href="/refresh">Refresh</a>';
+});
+
+Route::get('/refresh', function () {
+    Cache::forget('members');
+    return redirect('/');
 });
