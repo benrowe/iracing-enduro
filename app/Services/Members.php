@@ -41,13 +41,14 @@ class Members
 
         $avail = Cache::rememberForever('members', function () use ($members) {
             $rating = [];
+
             foreach ($members as $accountId) {
                 $rating[$accountId] = $this->getMemberDetail($accountId);
             }
             return $rating;
         });
 
-        usort($avail, function ($a, $b) {
+        usort($avail, static function ($a, $b) {
             return $b['irating'] <=> $a['irating'];
         });
 
@@ -58,7 +59,7 @@ class Members
     {
         $member = $this->iracing->member->profile(['cust_id' => $accountId]);
 
-        $license = collect($member->license_history)->first(fn($license) => $license->category === 'sports_car');
+        $license = collect($member->license_history)->first(static fn ($license) => $license->category === 'sports_car');
         return [
             'name' => $member->member_info->display_name,
             'irating' => $license->irating,

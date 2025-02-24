@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Attributes\HttpRoute;
@@ -15,7 +17,7 @@ class SettingController extends Controller
     public function index(Members $members): View
     {
         return view('settings', [
-            'members' => $members->getAugmented()
+            'members' => $members->getAugmented(),
         ]);
     }
 

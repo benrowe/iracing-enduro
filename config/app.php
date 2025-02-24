@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
 
     /*
@@ -126,6 +128,6 @@ return [
     'iracing' => [
         'email' => env('IRACING_EMAIL'),
         'password' => env('IRACING_PASSWORD'),
-    ]
+    ],
 
 ];

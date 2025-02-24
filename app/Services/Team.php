@@ -10,54 +10,61 @@ class Team
 {
     public function addNew(): void
     {
-
     }
 
     public function getTeams(): array
     {
         return Cache::get('teams', []);
     }
-public function splitListWithIndexes(array $nums): array
-{
-arsort($nums); // Sort by value while keeping indexes
-$totalSum = array_sum($nums);
-$target = $totalSum / 2;
 
-$bestDiff = PHP_INT_MAX;
-$bestSubset = [];
+    public function splitListWithIndexes(array $nums): array
+    {
+        // Sort by value while keeping indexes
+        arsort($nums);
+        $totalSum = array_sum($nums);
+        $target = $totalSum / 2;
 
-$indexes = array_keys($nums);
-$n = count($nums);
-$totalCombinations = 1 << $n; // 2^n subsets
+        $bestDiff = PHP_INT_MAX;
+        $bestSubset = [];
 
-    // Try all subsets (brute force approach)
-for ($i = 1; $i < $totalCombinations; $i++) {
-$subset = [];
-$subsetSum = 0;
+        $indexes = array_keys($nums);
+        $n = count($nums);
+        // 2^n subsets
+        $totalCombinations = 1 << $n;
 
-for ($j = 0; $j < $n; $j++) {
-if ($i & (1 << $j)) {
-$idx = $indexes[$j];
-$subset[$idx] = $nums[$idx];
-$subsetSum += $nums[$idx];
-}
-}
+        // Try all subsets (brute force approach)
+        for ($i = 1; $i < $totalCombinations; $i++) {
+            $subset = [];
+            $subsetSum = 0;
 
-$diff = abs($target - $subsetSum);
-if ($diff < $bestDiff) {
-    $bestDiff = $diff;
-    $bestSubset = $subset;
-}
-}
+            for ($j = 0; $j < $n; $j++) {
+                if (!($i & (1 << $j))) {
+                    continue;
+                }
 
-// Split lists
-$list1 = $bestSubset;
-$list2 = $nums;
+                $idx = $indexes[$j];
+                $subset[$idx] = $nums[$idx];
+                $subsetSum += $nums[$idx];
+            }
 
-foreach (array_keys($list1) as $idx) {
-    unset($list2[$idx]);
-}
+            $diff = abs($target - $subsetSum);
 
-return [$list1, $list2];
-}
+            if ($diff >= $bestDiff) {
+                continue;
+            }
+
+            $bestDiff = $diff;
+            $bestSubset = $subset;
+        }
+
+    // Split lists
+        $list1 = $bestSubset;
+        $list2 = $nums;
+
+        foreach (array_keys($list1) as $idx) {
+            unset($list2[$idx]);
+        }
+
+        return [$list1, $list2];
+    }
 }
