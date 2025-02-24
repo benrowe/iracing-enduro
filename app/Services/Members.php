@@ -7,7 +7,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\Cache;
 use iRacingPHP\iRacing;
 
-class Members
+readonly class Members
 {
     public function __construct(private iRacing $iracing)
     {
@@ -30,11 +30,17 @@ class Members
         Cache::forget('members');
     }
 
+    /**
+     * @return string[]
+     */
     public function getIds(): array
     {
         return Cache::get('memberIds', []);
     }
 
+    /**
+     * @return array{name: string, irating: int}
+     */
     public function getAugmented(): array
     {
         $members = Cache::get('memberIds', []);
@@ -48,26 +54,31 @@ class Members
             return $rating;
         });
 
-        usort($avail, static function ($a, $b) {
-            return $b['irating'] <=> $a['irating'];
+        usort($avail, static function ($left, $right) {
+            return $right['irating'] <=> $left['irating'];
         });
 
         return $avail;
     }
 
-    function getMemberDetail(string $accountId): array
+    public function refresh(): void
+    {
+        Cache::forget('members');
+    }
+
+    /**
+     * @return array{name: string, irating: int}
+     */
+    private function getMemberDetail(string $accountId): array
     {
         $member = $this->iracing->member->profile(['cust_id' => $accountId]);
 
-        $license = collect($member->license_history)->first(static fn ($license) => $license->category === 'sports_car');
+        $license = collect($member->license_history)
+            ->first(static fn ($license) => $license->category === 'sports_car');
+
         return [
             'name' => $member->member_info->display_name,
             'irating' => $license->irating,
         ];
-    }
-
-    public function refresh(): void
-    {
-        Cache::forget('members');
     }
 }

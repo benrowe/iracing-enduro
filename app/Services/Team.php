@@ -10,13 +10,21 @@ class Team
 {
     public function addNew(): void
     {
+        return;
     }
 
+    /**
+     * @return TeamEntity[]
+     */
     public function getTeams(): array
     {
         return Cache::get('teams', []);
     }
 
+    /**
+     * @param array<int, int> $nums
+     * @return array{TeamEntity[], TeamEntity[]}
+     */
     public function splitListWithIndexes(array $nums): array
     {
         // Sort by value while keeping indexes
@@ -28,16 +36,31 @@ class Team
         $bestSubset = [];
 
         $indexes = array_keys($nums);
-        $n = count($nums);
-        // 2^n subsets
-        $totalCombinations = 1 << $n;
+        $count = count($nums);
+        // 2^count subsets
+        $totalCombinations = 1 << $count;
 
         // Try all subsets (brute force approach)
+        $bestSubset = $this->bruteForce($totalCombinations, $count, $indexes, $nums, $target, $bestDiff, $bestSubset);
+
+        // Split lists
+        $list1 = $bestSubset;
+        $list2 = $nums;
+
+        foreach (array_keys($list1) as $idx) {
+            unset($list2[$idx]);
+        }
+
+        return [$list1, $list2];
+    }
+
+    private function bruteForce(int $totalCombinations, int $count, array $indexes, array $nums, float|int $target, float|int $bestDiff, array $bestSubset): array
+    {
         for ($i = 1; $i < $totalCombinations; $i++) {
             $subset = [];
             $subsetSum = 0;
 
-            for ($j = 0; $j < $n; $j++) {
+            for ($j = 0; $j < $count; $j++) {
                 if (!($i & (1 << $j))) {
                     continue;
                 }
@@ -56,15 +79,6 @@ class Team
             $bestDiff = $diff;
             $bestSubset = $subset;
         }
-
-    // Split lists
-        $list1 = $bestSubset;
-        $list2 = $nums;
-
-        foreach (array_keys($list1) as $idx) {
-            unset($list2[$idx]);
-        }
-
-        return [$list1, $list2];
+        return $bestSubset;
     }
 }

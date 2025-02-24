@@ -19,11 +19,4 @@ class AppServiceProvider extends ServiceProvider
             return new iRacing($cfg['email'], $cfg['password']);
         });
     }
-
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot(): void
-    {
-    }
 }
