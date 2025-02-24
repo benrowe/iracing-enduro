@@ -1,1 +1,1 @@
-<span class="{{ $class }}"></span>
+<span class="{{ $class }} text-2xl"></span>

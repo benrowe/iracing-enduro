@@ -13,26 +13,24 @@ class Members
     {
     }
 
-    public function add(string $memberId): void
+    public function addId(string $memberId): void
     {
-        $argumented = $this->getAugmented();
-        $argumented[$memberId] = $this->extracted($memberId);
-        Cache::put('members', $argumented);
+        $augmented = $this->getAugmented();
+        $augmented[$memberId] = $this->getMemberDetail($memberId);
+        Cache::put('members', $augmented);
 
-        $members = $this->get();
+        $members = $this->getIds();
         $members[] = $memberId;
-        $this->set($members);
-        // augment the member with the new member
-
+        $this->setIds(array_unique($members));
     }
 
-    public function set(array $members): void
+    public function setIds(array $members): void
     {
         Cache::put('memberIds', $members);
         Cache::forget('members');
     }
 
-    public function get(): array
+    public function getIds(): array
     {
         return Cache::get('memberIds', []);
     }
@@ -41,28 +39,34 @@ class Members
     {
         $members = Cache::get('memberIds', []);
 
-        return Cache::rememberForever('members', function () use ($members) {
-            $cfg = config('app.iracing');
-            $iracing = new iRacing($cfg['email'], $cfg['password']);
+        $avail = Cache::rememberForever('members', function () use ($members) {
             $rating = [];
             foreach ($members as $accountId) {
-
-                list($member, $license) = $this->extracted($accountId);
-
-                $rating[$accountId] = [
-                    'name' => $member->member_info->display_name,
-                    'irating' => $license->irating,
-                ];
+                $rating[$accountId] = $this->getMemberDetail($accountId);
             }
             return $rating;
         });
+
+        usort($avail, function ($a, $b) {
+            return $b['irating'] <=> $a['irating'];
+        });
+
+        return $avail;
     }
 
-    function extracted(string $accountId): array
+    function getMemberDetail(string $accountId): array
     {
         $member = $this->iracing->member->profile(['cust_id' => $accountId]);
 
         $license = collect($member->license_history)->first(fn($license) => $license->category === 'sports_car');
-        return array($member, $license);
+        return [
+            'name' => $member->member_info->display_name,
+            'irating' => $license->irating,
+        ];
+    }
+
+    public function refresh(): void
+    {
+        Cache::forget('members');
     }
 }

@@ -17,8 +17,11 @@
     <a href="/teams/add" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
         <x-icon class="i-mdi-plus" /> Add Team
     </a>
+    <a href="/teams/auto-allocate" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
+        <x-icon class="i-mdi-account-alert" /> Auto Allocate Teams
+    </a>
 
-    <a href="/refresh" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
+    <a href="/members/refresh" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
         <x-icon class="i-mdi-refresh" /> Reload Member Stats
     </a>
 @endsection

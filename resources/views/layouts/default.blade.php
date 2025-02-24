@@ -9,6 +9,9 @@
             <a href="/" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition duration-300">
                 Team Builder
             </a>
+            <a href="/fuel" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition duration-300">
+                Fuel Calculator
+            </a>
         </div>
 
         <!-- Right-aligned red button for settings icon -->
