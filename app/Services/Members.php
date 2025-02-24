@@ -24,6 +24,9 @@ readonly class Members
         $this->setIds(array_unique($members));
     }
 
+    /**
+     * @param string[] $members
+     */
     public function setIds(array $members): void
     {
         Cache::put('memberIds', $members);

@@ -17,9 +17,9 @@ class TeamController extends Controller
     {
         $ratings = $members->getAugmented();
 
-        $nums = array_map(static fn ($rat) => $rat['irating'], $ratings);
+        $memberRatings = array_map(static fn (array $member) => $member['irating'], $ratings);
 
-        [$team1, $team2] = $team->splitListWithIndexes($nums);
+        [$team1, $team2] = $team->splitListWithIndexes($memberRatings);
 
         return view('teams', compact('team1', 'team2', 'ratings'));
     }

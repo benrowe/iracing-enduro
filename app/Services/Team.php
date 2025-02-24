@@ -54,21 +54,20 @@ class Team
         return [$list1, $list2];
     }
 
-    private function bruteForce(int $totalCombinations, int $count, array $indexes, array $nums, float|int $target, float|int $bestDiff, array $bestSubset): array
-    {
+    /**
+     * @return array{mixed, mixed}
+     */
+    private function bruteForce(
+        int $totalCombinations,
+        int $count,
+        array $indexes,
+        array $nums,
+        float|int $target,
+        float|int $bestDiff,
+        array $bestSubset
+    ): array {
         for ($i = 1; $i < $totalCombinations; $i++) {
-            $subset = [];
-            $subsetSum = 0;
-
-            for ($j = 0; $j < $count; $j++) {
-                if (!($i & (1 << $j))) {
-                    continue;
-                }
-
-                $idx = $indexes[$j];
-                $subset[$idx] = $nums[$idx];
-                $subsetSum += $nums[$idx];
-            }
+            [$subset, $subsetSum] = $this->subset($count, $i, $indexes, $nums);
 
             $diff = abs($target - $subsetSum);
 
@@ -80,5 +79,27 @@ class Team
             $bestSubset = $subset;
         }
         return $bestSubset;
+    }
+
+    /**
+     * @param array<int, int> $indexes
+     * @param array<int, int> $nums
+     * @return array{mixed, int}
+     */
+    private function subset(int $count, int $i, array $indexes, array $nums): array
+    {
+        $subset = [];
+        $subsetSum = 0;
+
+        for ($j = 0; $j < $count; $j++) {
+            if (!($i & (1 << $j))) {
+                continue;
+            }
+
+            $idx = $indexes[$j];
+            $subset[$idx] = $nums[$idx];
+            $subsetSum += $nums[$idx];
+        }
+        return [$subset, $subsetSum];
     }
 }
