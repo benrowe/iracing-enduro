@@ -39,6 +39,7 @@ jobs:
 
       - name: Run linters
         run: |
+          composer ide-helper
           composer lint
           composer quality
           composer quality:static
