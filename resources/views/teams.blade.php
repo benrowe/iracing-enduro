@@ -11,7 +11,7 @@
                 <li>
                     {{ $detail['name'] }} - {{ $detail['irating'] }}
                     @foreach($teams as $index=> $team)
-                        <a hx-post="/teams/{{ ++$index }}/members/{{ $id }}" hx-target="#teams" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300 text-sm">{{$index}}</a>
+                        <a hx-post="/teams/{{ ++$index }}/members/{{ $id }}" hx-target="#teams" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300 text-sm">{{ $index }}</a>
                     @endforeach
                 </li>
             @endforeach

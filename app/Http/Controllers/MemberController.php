@@ -14,7 +14,6 @@ readonly class MemberController
 {
     public function __construct(private TeamsRenderer $renderer)
     {
-
     }
 
     #[HttpRoute(RouteNames::MEMBERS_REFRESH)]
