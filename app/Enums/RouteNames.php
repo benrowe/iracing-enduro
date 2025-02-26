@@ -13,4 +13,9 @@ enum RouteNames: string
 
     case SETTINGS_INDEX = 'web.settings.index';
     case SETTINGS_STORE = 'web.settings.store';
+
+    const TEAMS_MEMBERS_STORE = 'web.teams.members.store';
+    const TEAMS_ADD = 'web.teams.add';
+    const TEAMS_DELETE = 'web.teams.delete';
+    const TEAMS_AUTO_ALLOCATE = 'web.teams.auto-allocate';
 }
