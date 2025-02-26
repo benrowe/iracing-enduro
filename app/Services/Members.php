@@ -57,7 +57,8 @@ readonly class Members
             return $rating;
         });
 
-        usort($avail, static function ($left, $right) {
+
+        uasort($avail, static function ($left, $right) {
             return $right['irating'] <=> $left['irating'];
         });
 

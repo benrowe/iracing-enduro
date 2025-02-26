@@ -6,15 +6,21 @@ namespace App\Http\Controllers;
 
 use App\Attributes\HttpRoute;
 use App\Enums\RouteNames;
+use App\Renderers\TeamsRenderer;
 use App\Services\Members;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
-class MemberController extends Controller
+readonly class MemberController
 {
+    public function __construct(private TeamsRenderer $renderer)
+    {
+
+    }
+
     #[HttpRoute(RouteNames::MEMBERS_REFRESH)]
-    public function refresh(Members $members): RedirectResponse
+    public function refresh(Members $members): View
     {
         $members->refresh();
-        return redirect('/');
+        return $this->renderer->render();
     }
 }
