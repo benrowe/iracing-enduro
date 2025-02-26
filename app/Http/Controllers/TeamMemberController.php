@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Attributes\HttpRoute;
+use App\Enums\RouteNames;
 use App\Renderers\TeamsRenderer;
 use App\Services\Team;
 use Illuminate\View\View;
@@ -14,6 +16,7 @@ class TeamMemberController
     {
     }
 
+    #[HttpRoute(RouteNames::TEAMS_MEMBERS_STORE)]
     public function store(int $index, int $id, Team $team): View
     {
         $teamIndex = $index - 1;
