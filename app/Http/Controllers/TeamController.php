@@ -22,18 +22,21 @@ readonly class TeamController
         return $this->renderer->render();
     }
 
+    #[HttpRoute(RouteNames::TEAMS_ADD)]
     public function add(Team $team): View
     {
         $team->addNew();
         return $this->renderer->render();
     }
 
+    #[HttpRoute(RouteNames::TEAMS_DELETE)]
     public function delete(Team $team, int $index): View
     {
         $team->delete($index - 1);
         return $this->renderer->render();
     }
 
+    #[HttpRoute(RouteNames::TEAMS_AUTO_ALLOCATE)]
     public function autoAllocate(): View
     {
         // add the un-allocated members to the existing teams by averaging out their rating

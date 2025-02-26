@@ -11,7 +11,7 @@
                 <li>
                     {{ $detail['name'] }} - {{ $detail['irating'] }}
                     @foreach($teams as $index=> $team)
-                        <a hx-post="/teams/{{ ++$index }}/members/{{ $id }}" hx-target="#teams" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300 text-sm">{{ $index }}</a>
+                        <a hx-post="{{ route(RouteNames::TEAMS_MEMBERS_STORE, ['index' => ++$index, 'id' => $id]) }}" hx-target="#teams" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300 text-sm">{{ $index }}</a>
                     @endforeach
                 </li>
             @endforeach
@@ -22,14 +22,14 @@
             @endforeach
         </div>
     </x-fragment>
-    <a hx-post="/teams/add" hx-target="#teams" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
+    <a hx-post="{{ route(RouteNames::TEAMS_ADD) }}" hx-target="#teams" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
         <x-icon class="i-mdi-plus" /> Add Team
     </a>
-    <a hx-post="/teams/auto-allocate" hx-target="#teams" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
+    <a hx-post="{{ route(RouteNames::TEAMS_AUTO_ALLOCATE) }}" hx-target="#teams" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
         <x-icon class="i-mdi-account-alert" /> Auto Allocate Teams
     </a>
 
-    <a href="/members/refresh" hx-target="teams" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
+    <a href="{{ route(RouteNames::MEMBERS_REFRESH) }}" hx-target="teams" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
         <x-icon class="i-mdi-refresh" /> Reload Member Stats
     </a>
 @endsection

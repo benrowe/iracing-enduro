@@ -1,6 +1,11 @@
 <div class="bg-white rounded-md shadow-md p-4 relative">
     <div class="absolute top-2 right-2">
-        <a hx-delete="/teams/{{ $index + 1 }}" hx-vals='{"_method": "DELETE"}' hx-target="#teams" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
+        <a
+            hx-delete="{{ route(\App\Enums\RouteNames::TEAMS_DELETE, ['index' => $index + 1]) }}"
+            hx-vals='{"_method": "DELETE"}'
+            hx-target="#teams"
+            class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300"
+        >
             <x-icon class="i-mdi-trash-can" />
         </a>
     </div>

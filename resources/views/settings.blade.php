@@ -8,7 +8,7 @@
             <li>{{ $detail['name'] }} - {{ $id }}</li>
         @endforeach
     </ul>
-    <form action="/settings/add" method="POST">
+    <form action="{{ route(\App\Enums\RouteNames::SETTINGS_STORE) }}" method="POST">
         @csrf
         <input type="text" name="memberId" placeholder="Member ID">
         <button class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
