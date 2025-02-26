@@ -14,11 +14,15 @@ Route::get('/', [TeamController::class, 'index'])
 
 Route::group(['prefix' => 'teams'], function () {
     Route::group(['prefix' => '{index}/members'], function () {
-        Route::post('{id}', [TeamMemberController::class, 'store']);
+        Route::post('{id}', [TeamMemberController::class, 'store'])
+            ->name(RouteNames::TEAMS_MEMBERS_STORE);
     });
-    Route::post('add', [TeamController::class, 'add']);
-    Route::delete('{index}', [TeamController::class, 'delete']);
-    Route::post('auto-allocate', [TeamController::class, 'autoAllocate']);
+    Route::post('add', [TeamController::class, 'add'])
+        ->name(RouteNames::TEAMS_ADD);
+    Route::delete('{index}', [TeamController::class, 'delete'])
+        ->name(RouteNames::TEAMS_DELETE);
+    Route::post('auto-allocate', [TeamController::class, 'autoAllocate'])
+        ->name(RouteNames::TEAMS_AUTO_ALLOCATE);
 });
 
 Route::group(['prefix' => 'settings'], function () {
