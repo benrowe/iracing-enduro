@@ -34,9 +34,10 @@ readonly class TeamController
         return $this->renderer->render();
     }
 
-    public function autoAllocate(Team $team): View
+    public function autoAllocate(): View
     {
         // add the un-allocated members to the existing teams by averaging out their rating
+        // @todo
         return $this->renderer->render();
     }
 }

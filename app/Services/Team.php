@@ -58,6 +58,48 @@ class Team
         return [$list1, $list2];
     }
 
+    public function reset(): void
+    {
+        Cache::forget('teams');
+    }
+
+    public function delete(int $index): void
+    {
+        $teams = $this->getTeams();
+        unset($teams[$index - 1]);
+        Cache::put('teams', array_values($teams));
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getAllocatedMembers(): array
+    {
+        $teams = $this->getTeams();
+        return collect($teams)
+            ->flatMap(static fn (TeamEntity $team) => $team->members)
+            ->toArray();
+    }
+
+    /**
+     * @throws TeamException
+     */
+    public function addMember(int $teamIndex, int $memberId): void
+    {
+        $team = $this->getTeam($teamIndex);
+
+        if (!$team) {
+            // todo team not found?
+            throw new TeamException('Team not found');
+        }
+
+        $team = new TeamEntity(array_merge($team->members, [$memberId]));
+        $teams = $this->getTeams();
+
+        $teams[$teamIndex] = $team;
+        Cache::put('teams', $teams);
+    }
+
     /**
      * @return array{mixed, mixed}
      */
@@ -105,46 +147,6 @@ class Team
             $subsetSum += $nums[$idx];
         }
         return [$subset, $subsetSum];
-    }
-
-    public function reset(): void
-    {
-        Cache::forget('teams');
-    }
-
-    public function delete(int $index): void
-    {
-        $teams = $this->getTeams();
-        unset($teams[$index - 1]);
-        Cache::put('teams', array_values($teams));
-    }
-
-    public function getAllocatedMembers(): array
-    {
-        $teams = $this->getTeams();
-        return collect($teams)
-            ->flatMap(fn (TeamEntity $team) => $team->members)
-            ->toArray();
-    }
-
-    /**
-     * @throws TeamException
-     */
-    public function addMember(int $teamIndex, int $memberId): void
-    {
-        $team = $this->getTeam($teamIndex);
-
-        if (!$team) {
-            // todo team not found?
-            throw new TeamException('Team not found');
-        }
-
-        $team = new TeamEntity(array_merge($team->members, [$memberId]));
-        $teams = $this->getTeams();
-
-        $teams[$teamIndex] = $team;
-        Cache::put('teams', $teams);
-
     }
 
     private function getTeam(int $index): ?TeamEntity
