@@ -6,6 +6,9 @@ namespace App\Services;
 
 readonly class TeamEntity
 {
+    /**
+     * @param string[] $members
+     */
     public function __construct(public array $members = [])
     {
     }

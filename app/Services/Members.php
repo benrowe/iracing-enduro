@@ -75,10 +75,16 @@ readonly class Members
      */
     private function getMemberDetail(string $accountId): array
     {
+        /**
+         * @var object{
+         *     license_history: object{category: string, irating: int}[],
+         *     member_info: object{display_name: string}
+         * } $member
+         */
         $member = $this->iracing->member->profile(['cust_id' => $accountId]);
 
         $license = collect($member->license_history)
-            ->first(static fn ($license) => $license->category === 'sports_car');
+            ->first(static fn (object $license) => $license->category === 'sports_car');
 
         return [
             'name' => $member->member_info->display_name,
