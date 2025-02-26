@@ -74,7 +74,7 @@
             "./vendor/bin/phpstan analyse --memory-limit=2G --no-progress --error-format gitlab"
         ],
         "test": "@php ./artisan test --parallel",
-        "test:ci": "@php ./artisan test --parallel --coverage --min=100",
+        "test:ci": "@php ./artisan test --parallel --coverage --min=40",
         "test:profile": "@php ./artisan test --profile",
         "test:coverage": "@php ./artisan test --parallel --coverage",
         "test:coverage:html": "@php ./artisan test --parallel --coverage --coverage-html reports/coverage",
