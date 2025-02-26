@@ -30,7 +30,7 @@ class SettingTest extends TestCase
             ->getMockBuilder(iRacing::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $iracing->member = Mockery::mock(Member::class, static function (MockInterface $mock) {
+        $iracing->member = Mockery::mock(Member::class, static function (MockInterface $mock): void {
             $mock
                 ->shouldReceive('profile')
                 ->atLeast()
@@ -40,12 +40,12 @@ class SettingTest extends TestCase
                     'license_history' => [
                         (object) [
                             'category' => 'sports_car',
-                            'irating' => 50
-                        ]
+                            'irating' => 50,
+                        ],
                     ],
                     'member_info' => (object) [
-                        'display_name' => 'John Doe'
-                    ]
+                        'display_name' => 'John Doe',
+                    ],
                 ]);
         });
         $this->app->instance(iRacing::class, $iracing);
@@ -63,7 +63,7 @@ class SettingTest extends TestCase
             ->getMockBuilder(iRacing::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $iracing->member = Mockery::mock(Member::class, static function (MockInterface $mock) {
+        $iracing->member = Mockery::mock(Member::class, static function (MockInterface $mock): void {
             $mock
                 ->shouldReceive('profile')
                 ->atLeast()
@@ -73,12 +73,12 @@ class SettingTest extends TestCase
                     'license_history' => [
                         (object) [
                             'category' => 'sports_car',
-                            'irating' => 50
-                        ]
+                            'irating' => 50,
+                        ],
                     ],
                     'member_info' => (object) [
-                        'display_name' => 'John Doe'
-                    ]
+                        'display_name' => 'John Doe',
+                    ],
                 ]);
         });
         $this->app->instance(iRacing::class, $iracing);
