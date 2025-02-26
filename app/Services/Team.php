@@ -27,7 +27,7 @@ class Team
 
     /**
      * @param array<int, int> $nums
-     * @return array{TeamEntity[], TeamEntity[]}
+     * @return array{array{mixed, mixed}, array<int, int>}
      */
     public function splitListWithIndexes(array $nums): array
     {
@@ -101,6 +101,9 @@ class Team
     }
 
     /**
+     * @param array<int, int> $nums
+     * @param array<int, int> $indexes
+     * @param mixed[] $bestSubset
      * @return array{mixed, mixed}
      */
     private function bruteForce(
