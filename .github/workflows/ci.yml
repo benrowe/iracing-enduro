@@ -2,8 +2,7 @@ name: PHP Tests and Linters
 
 on:
   push:
-    branches:
-      - master
+  pull_request:
 
 jobs:
   tests:
