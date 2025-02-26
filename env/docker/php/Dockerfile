@@ -11,6 +11,9 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql
 
+RUN pecl install pcov \
+    && docker-php-ext-enable pcov
+
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 # Set working directory
