@@ -6,8 +6,10 @@ namespace App\Http\Controllers;
 
 use App\Attributes\HttpRoute;
 use App\Enums\RouteNames;
+use App\Exceptions\TeamException;
 use App\Renderers\TeamsRenderer;
 use App\Services\Team;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 readonly class TeamController
@@ -32,7 +34,11 @@ readonly class TeamController
     #[HttpRoute(RouteNames::TEAMS_DELETE)]
     public function delete(Team $team, int $index): View
     {
-        $team->delete($index - 1);
+        try {
+            $team->delete($index - 1);
+        } catch (TeamException) {
+            abort(Response::HTTP_NOT_FOUND);
+        }
         return $this->renderer->render();
     }
 
