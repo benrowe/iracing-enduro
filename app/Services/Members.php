@@ -7,19 +7,25 @@ namespace App\Services;
 use Illuminate\Support\Facades\Cache;
 use iRacingPHP\iRacing;
 
-readonly class Members
+class Members
 {
-    public function __construct(private iRacing $iracing)
+    public function __construct(readonly private iRacing $iracing)
     {
     }
 
     public function addId(string $memberId): void
     {
+        $members = $this->getIds();
+
+        if (in_array($memberId, $members, true)) {
+            return;
+        }
+
         $augmented = $this->getAugmented();
         $augmented[$memberId] = $this->getMemberDetail($memberId);
         Cache::put('members', $augmented);
 
-        $members = $this->getIds();
+
         $members[] = $memberId;
         $this->setIds(array_unique($members));
     }
