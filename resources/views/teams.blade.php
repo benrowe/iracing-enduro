@@ -4,6 +4,7 @@
 @extends('layouts.default')
 
 @section('content')
+    <div hx-boost="true" hx-target="#teams" hx-indicator="#content-spinner" hx-swap="innerHtml transition:true">
     <x-fragment key="teams">
         <x-heading>Unallocated Members</x-heading>
         <ul>
@@ -11,7 +12,7 @@
                 <li>
                     {{ $detail['name'] }} - {{ $detail['irating'] }}
                     @foreach($teams as $index=> $team)
-                        <a hx-post="{{ route(RouteNames::TEAMS_MEMBERS_STORE, ['index' => ++$index, 'id' => $id]) }}" hx-target="#teams" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300 text-sm">{{ $index }}</a>
+                        <a hx-post="{{ route(RouteNames::TEAMS_MEMBERS_STORE, ['index' => ++$index, 'id' => $id]) }}" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300 text-sm">{{ $index }}</a>
                     @endforeach
                 </li>
             @endforeach
@@ -22,14 +23,14 @@
             @endforeach
         </div>
     </x-fragment>
-    <a hx-post="{{ route(RouteNames::TEAMS_ADD) }}" hx-target="#teams" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
+    <a hx-post="{{ route(RouteNames::TEAMS_ADD) }}" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
         <x-icon class="i-mdi-plus" /> Add Team
     </a>
-    <a hx-post="{{ route(RouteNames::TEAMS_AUTO_ALLOCATE) }}" hx-target="#teams" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
+    <a hx-post="{{ route(RouteNames::TEAMS_AUTO_ALLOCATE) }}" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
         <x-icon class="i-mdi-account-alert" /> Auto Allocate Teams
     </a>
 
-    <a href="{{ route(RouteNames::MEMBERS_REFRESH) }}" hx-target="teams" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
+    <a href="{{ route(RouteNames::MEMBERS_REFRESH) }}" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300">
         <x-icon class="i-mdi-refresh" /> Reload Member Stats
     </a>
 
