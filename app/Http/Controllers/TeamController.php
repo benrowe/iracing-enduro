@@ -48,4 +48,11 @@ readonly class TeamController
         $team->autoAllocateNewMembers();
         return $this->renderer->render();
     }
+
+    #[HttpRoute(RouteNames::TEAMS_RESET)]
+    public function reset(Team $team): View
+    {
+        $team->reset();
+        return $this->renderer->render();
+    }
 }

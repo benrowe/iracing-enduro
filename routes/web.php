@@ -25,6 +25,8 @@ Route::group(['prefix' => 'teams'], function () {
         ->name(RouteNames::TEAMS_DELETE);
     Route::post('auto-allocate', [TeamController::class, 'autoAllocate'])
         ->name(RouteNames::TEAMS_AUTO_ALLOCATE);
+    Route::post('reset', [TeamController::class, 'reset'])
+        ->name(RouteNames::TEAMS_RESET);
 });
 
 Route::group(['prefix' => 'settings'], function () {
