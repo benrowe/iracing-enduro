@@ -52,7 +52,7 @@ class Members
      */
     public function getAugmented(): array
     {
-        $members = Cache::get('memberIds', []);
+        $members = $this->getIds();
 
         $avail = Cache::rememberForever('members', function () use ($members) {
             $rating = [];
