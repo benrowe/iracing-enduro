@@ -7,7 +7,7 @@
     <div hx-boost="true" hx-target="#teams" hx-indicator="#content-spinner" hx-swap="innerHtml transition:true">
     <x-fragment key="teams">
         <x-heading>Unallocated Members</x-heading>
-        <ul>
+        <ul id="unallocated-members">
             @foreach($unallocatedMembers as $id=>$detail)
                 <li>
                     {{ $detail['name'] }} - {{ $detail['irating'] }}
