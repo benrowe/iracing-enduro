@@ -6,7 +6,18 @@ module.exports = {
         "./resources/**/*.blade.php",
     ],
     theme: {
-        extend: {},
+        extend: {
+            colors: {
+                'red': {
+                    DEFAULT: '#cc0000',
+                },
+                'gray': {
+                    DEFAULT: '#000000',
+                    50: '#CCCCCC',
+                    200: '#555555',
+                }
+            }
+        },
     },
     plugins: [
         require('@tailwindcss/forms'),

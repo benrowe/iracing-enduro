@@ -3,7 +3,7 @@
 @section('base')
     <body class="h-screen flex flex-col bg-gray-50 env-{{ app()->environment() }}">
     <!-- Top Navigation -->
-    <nav class="fixed top-0 left-0 w-full bg-white shadow-md p-4 flex justify-between items-center">
+    <nav class="fixed top-0 left-0 w-full bg-gray-200 shadow-md p-4 flex justify-between items-center">
         <!-- Left-aligned navigation items with red button style -->
         <div class="flex space-x-6">
             <a href="{{ route(\App\Enums\RouteNames::DASHBOARD) }}" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition duration-300">
