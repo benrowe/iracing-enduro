@@ -6,6 +6,10 @@ namespace Tests\Unit\Renderers;
 
 use App\Renderers\TeamsRenderer;
 use App\Services\Members;
+use App\Services\TeamEntity;
+use DOMDocument;
+use DOMXPath;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 use iRacingPHP\Data\Member;
 use iRacingPHP\iRacing;
@@ -57,5 +61,26 @@ class TeamsRendererTest extends TestCase
         $this->assertInstanceOf(View::class, $view);
 
         $this->assertStringContainsString('John Doe - 50', $view->toHtml());
+    }
+
+    public function testAllocatedMembersAreNotDisplayedInUnallocated(): void
+    {
+        Cache::put('memberIds', [1]);
+        Cache::put('teams', [new TeamEntity([1])]);
+        Cache::put('members', [
+            '1' => ['name' => 'Member 1', 'irating' => 12345],
+        ]);
+
+        $teams = $this->app->make(TeamsRenderer::class);
+
+        $view = $teams->render();
+        $this->assertInstanceOf(View::class, $view);
+        // load the html into a dom parser and interrogate it
+        $dom = new DOMDocument();
+        $dom->loadHTML($view->toHtml(), LIBXML_NOERROR);
+        $xpath = new DOMXPath($dom);
+        // query the #unallocated-members ul element and get the li element within
+        $li = $xpath->query('//ul[@id="unallocated-members"]//li')->item(0);
+        $this->assertNull($li);
     }
 }
