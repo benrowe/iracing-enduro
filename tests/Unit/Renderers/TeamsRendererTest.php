@@ -50,7 +50,7 @@ class TeamsRendererTest extends TestCase
         });
 
         $this->app->instance(iRacing::class, $iracing);
-        $this->app->make(Members::class)->addId('1');
+        $this->app->make(Members::class)->addId(1);
         $teams = $this->app->make(TeamsRenderer::class);
 
         $view = $teams->render();

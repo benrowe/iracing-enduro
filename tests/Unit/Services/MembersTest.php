@@ -40,7 +40,7 @@ class MembersTest extends TestCase
         });
         $this->app->instance(iRacing::class, $iracing);
         $members = $this->app->make(Members::class);
-        $members->addId('12345');
+        $members->addId(12345);
 
         $this->assertEquals(['12345' => ['name' => 'John Doe', 'irating' => 50]], $members->getAugmented());
         $this->assertEquals(['12345'], $members->getIds());
@@ -50,8 +50,8 @@ class MembersTest extends TestCase
     {
         Cache::put('memberIds', ['12345']);
         $members = $this->app->make(Members::class);
-        $members->addId('12345');
-        $this->assertSame(['12345'], $members->getIds());
+        $members->addId(12345);
+        $this->assertSame([12345], $members->getIds());
     }
 
     public function testAugmentedListIsOrderedByRanking(): void

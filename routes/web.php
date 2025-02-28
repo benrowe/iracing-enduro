@@ -16,6 +16,8 @@ Route::group(['prefix' => 'teams'], function () {
     Route::group(['prefix' => '{index}/members'], function () {
         Route::post('{id}', [TeamMemberController::class, 'store'])
             ->name(RouteNames::TEAMS_MEMBERS_STORE);
+        Route::delete('{id}', [TeamMemberController::class, 'delete'])
+            ->name(RouteNames::TEAMS_MEMBERS_DELETE);
     });
     Route::post('add', [TeamController::class, 'add'])
         ->name(RouteNames::TEAMS_ADD);
