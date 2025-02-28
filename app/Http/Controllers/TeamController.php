@@ -43,10 +43,9 @@ readonly class TeamController
     }
 
     #[HttpRoute(RouteNames::TEAMS_AUTO_ALLOCATE)]
-    public function autoAllocate(): View
+    public function autoAllocate(Team $team): View
     {
-        // add the un-allocated members to the existing teams by averaging out their rating
-        // @todo
+        $team->autoAllocateNewMembers();
         return $this->renderer->render();
     }
 }

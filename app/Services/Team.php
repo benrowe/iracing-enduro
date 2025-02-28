@@ -16,7 +16,7 @@ class Team
     public function addNew(): void
     {
         $teams = $this->getTeams();
-        $teams[] = new TeamEntity();
+        $teams[] = $this->entity([]);
         Cache::put('teams', $teams);
         return;
     }
@@ -40,6 +40,7 @@ class Team
     public function delete(int $index): void
     {
         $teams = $this->getTeams();
+
         if (!isset($teams[$index])) {
             throw new TeamException('Team not found');
         }
@@ -68,6 +69,7 @@ class Team
         if (!$team) {
             throw new TeamException('Team not found');
         }
+
         if (!in_array($memberId, $this->members->getIds(), true)) {
             throw new TeamException('Member not found');
         }
@@ -76,18 +78,84 @@ class Team
             throw new TeamException('Member already exists in a team');
         }
 
-        $team = new TeamEntity(array_merge($team->members, [$memberId]));
+        $team = $this->entity(array_merge($team->members, [$memberId]));
         $teams = $this->getTeams();
 
         $teams[$teamIndex] = $team;
         Cache::put('teams', $teams);
     }
 
+    public function autoAllocateNewMembers(): void
+    {
+        $teams = array_map(static fn (TeamEntity $team) => $team->members, $this->getTeams());
+        $existingMembers = $this->getAllocatedMembers();
+        $allMembers = $this->members->getIds();
 
+        $newMembers = array_diff($allMembers, $existingMembers);
 
-    private function getTeam(int $index): ?TeamEntity
+        $newTeams = $this->allocateNewTeamMembers($teams, $newMembers);
+
+        Cache::put('teams', array_map($this->entity(...), $newTeams));
+    }
+
+    /**
+     * @throws TeamException
+     */
+    public function deleteMember(int $teamIndex, int $memberId): void
+    {
+        $team = $this->getTeam($teamIndex);
+
+        if (!$team) {
+            throw new TeamException('Team not found');
+        }
+
+        // is this member actually in the team?
+        if (!in_array($memberId, $team->members, true)) {
+            throw new TeamException('Member not found');
+        }
+        $team = $this->entity(array_diff($team->members, [$memberId]));
+        $teams = $this->getTeams();
+        $teams[$teamIndex] = $team;
+        Cache::put('teams', $teams);
+    }
+
+    public function getTeam(int $index): ?TeamEntity
     {
         $teams = $this->getTeams();
         return $teams[$index] ?? null;
+    }
+
+    /**
+     * @param int[][] $teams
+     * @param int[] $newMembers
+     * @return int[][]
+     */
+    private function allocateNewTeamMembers(array $teams, array $newMembers): array
+    {
+        // Calculate current team averages
+        $currentTeamAverages = array_map(static function ($team) {
+            if ($team === []) {
+                return 0;
+            }
+            return array_sum($team) / count($team);
+        }, $teams);
+
+        foreach ($newMembers as $name => $value) {
+            // Find the team with the lowest average
+            $lowestIndex = array_search(min($currentTeamAverages), $currentTeamAverages, true);
+
+            // Add the member to the team
+            $teams[$lowestIndex][$name] = $value;
+
+            // Recalculate the average for this team
+            $currentTeamAverages[$lowestIndex] = array_sum($teams[$lowestIndex]) / count($teams[$lowestIndex]);
+        }
+
+        return $teams;
+    }
+
+    private function entity(array $members): TeamEntity
+    {
+        return new TeamEntity(array_map('intval', $members));
     }
 }

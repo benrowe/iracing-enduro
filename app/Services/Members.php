@@ -13,7 +13,7 @@ class Members
     {
     }
 
-    public function addId(string $memberId): void
+    public function addId(int $memberId): void
     {
         $members = $this->getIds();
 
@@ -35,7 +35,7 @@ class Members
      */
     public function setIds(array $members): void
     {
-        Cache::put('memberIds', $members);
+        Cache::put('memberIds', array_map('intval', $members));
         Cache::forget('members');
     }
 
@@ -44,7 +44,7 @@ class Members
      */
     public function getIds(): array
     {
-        return Cache::get('memberIds', []);
+        return array_map('intval', Cache::get('memberIds', []));
     }
 
     /**
@@ -79,7 +79,7 @@ class Members
     /**
      * @return array{name: string, irating: int}
      */
-    private function getMemberDetail(string $accountId): array
+    private function getMemberDetail(int $accountId): array
     {
         /**
          * @var object{

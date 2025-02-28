@@ -49,7 +49,7 @@ class SettingTest extends TestCase
                 ]);
         });
         $this->app->instance(iRacing::class, $iracing);
-        $this->app->make(Members::class)->addId('12345');
+        $this->app->make(Members::class)->addId(12345);
         $this
             ->get(route(RouteNames::SETTINGS_INDEX))
             ->assertOk()

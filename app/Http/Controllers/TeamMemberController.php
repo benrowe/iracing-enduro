@@ -26,14 +26,36 @@ class TeamMemberController
     {
         $teamIndex = $index - 1;
         $memberId = $id;
+
         try {
             $team->addMember($teamIndex, $memberId);
         } catch (TeamException $e) {
             if (str_contains($e->getMessage(), 'not found')) {
                 abort(Response::HTTP_NOT_FOUND);
             }
+
             if (str_contains($e->getMessage(), 'already exists')) {
                 abort(Response::HTTP_CONFLICT);
+            }
+            throw $e;
+        }
+        return $this->renderer->render();
+    }
+
+    /**
+     * @throws TeamException
+     */
+    #[HttpRoute(RouteNames::TEAMS_MEMBERS_DELETE)]
+    public function delete(int $index, int $id, Team $team): View
+    {
+        $teamIndex = $index - 1;
+        $memberId = $id;
+
+        try {
+            $team->deleteMember($teamIndex, $memberId);
+        } catch (TeamException $e) {
+            if (str_contains($e->getMessage(), 'not found')) {
+                abort(Response::HTTP_NOT_FOUND);
             }
             throw $e;
         }

@@ -51,7 +51,7 @@ class TeamTest extends TestCase
         $this->assertCount(0, $team->getTeams());
     }
 
-    public function testDeleteUnknownTeamThrowsError()
+    public function testDeleteUnknownTeamThrowsError(): void
     {
         $team = $this->app->make(Team::class);
         $this->expectException(TeamException::class);
@@ -118,5 +118,31 @@ class TeamTest extends TestCase
         $team->addNew();
         $team->addMember(0, 1);
     }
-}
 
+    public function testDeleteTeamMember(): void
+    {
+        Cache::put('memberIds', [1]);
+        Cache::put('teams', [new TeamEntity([1])]);
+        $team = $this->app->make(Team::class);
+        $team->deleteMember(0, 1);
+        $this->assertCount(0, $team->getTeam(0)->members);
+    }
+
+    public function testCanNotDeleteTeamMemberFromUnknownTeam(): void
+    {
+        $this->expectException(TeamException::class);
+        $this->expectExceptionMessage('Team not found');
+        $team = $this->app->make(Team::class);
+        $team->deleteMember(0, 1);
+    }
+
+    public function testCanNotDeleteUnknownTeamMember(): void
+    {
+        $this->expectException(TeamException::class);
+        $this->expectExceptionMessage('Member not found');
+        Cache::put('teams', [new TeamEntity([])]);
+        $team = $this->app->make(Team::class);
+
+        $team->deleteMember(0, 1);
+    }
+}

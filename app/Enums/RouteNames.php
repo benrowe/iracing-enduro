@@ -15,6 +15,8 @@ enum RouteNames: string
     case SETTINGS_STORE = 'web.settings.store';
 
     case TEAMS_MEMBERS_STORE = 'web.teams.members.store';
+    case TEAMS_MEMBERS_DELETE = 'web.teams.members.delete';
+
     case TEAMS_ADD = 'web.teams.add';
     case TEAMS_DELETE = 'web.teams.delete';
     case TEAMS_AUTO_ALLOCATE = 'web.teams.auto-allocate';

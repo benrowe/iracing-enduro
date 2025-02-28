@@ -24,7 +24,7 @@ class SettingController
     #[HttpRoute(RouteNames::SETTINGS_STORE)]
     public function store(Request $request, Members $members): RedirectResponse
     {
-        $members->addId($request->string('memberId')->toString());
+        $members->addId($request->integer('memberId'));
         return redirect('/settings');
     }
 }
