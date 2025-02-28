@@ -49,7 +49,7 @@ class Team
     }
 
     /**
-     * @return string[]
+     * @return int[]
      */
     public function getAllocatedMembers(): array
     {
@@ -154,6 +154,9 @@ class Team
         return $teams;
     }
 
+    /**
+     * @param int[] $members
+     */
     private function entity(array $members): TeamEntity
     {
         return new TeamEntity(array_map('intval', $members));
