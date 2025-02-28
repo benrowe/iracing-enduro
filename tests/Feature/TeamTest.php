@@ -99,4 +99,15 @@ class TeamTest extends TestCase
         // assert the count of the team members = 5
         $this->assertCount(5, $teams[0]->members + $teams[1]->members);
     }
+
+    public function testCanResetTeams(): void
+    {
+        $team = $this->app->make(Team::class);
+        $team->addNew();
+        $team->addNew();
+        $this
+            ->post(route(RouteNames::TEAMS_RESET))
+            ->assertOk()
+            ->assertDontSee('Team 1');
+    }
 }
