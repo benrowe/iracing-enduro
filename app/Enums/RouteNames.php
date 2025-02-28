@@ -20,4 +20,5 @@ enum RouteNames: string
     case TEAMS_ADD = 'web.teams.add';
     case TEAMS_DELETE = 'web.teams.delete';
     case TEAMS_AUTO_ALLOCATE = 'web.teams.auto-allocate';
+    case TEAMS_RESET = 'web.teams.reset';
 }
