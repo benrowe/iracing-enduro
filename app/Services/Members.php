@@ -31,7 +31,7 @@ class Members
     }
 
     /**
-     * @param string[] $members
+     * @param int[] $members
      */
     public function setIds(array $members): void
     {
@@ -40,7 +40,7 @@ class Members
     }
 
     /**
-     * @return string[]
+     * @return int[]
      */
     public function getIds(): array
     {
