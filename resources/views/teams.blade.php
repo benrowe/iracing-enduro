@@ -8,15 +8,18 @@
     <x-fragment key="teams">
         <x-heading>Unallocated Members</x-heading>
         <ul id="unallocated-members">
-            @foreach($unallocatedMembers as $id=>$detail)
+            @forelse($unallocatedMembers as $id=>$detail)
                 <li>
                     {{ $detail['name'] }} - {{ $detail['irating'] }}
                     @foreach($teams as $index=> $team)
                         <a hx-post="{{ route(RouteNames::TEAMS_MEMBERS_STORE, ['index' => ++$index, 'id' => $id]) }}" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300 text-sm">{{ $index }}</a>
                     @endforeach
                 </li>
-            @endforeach
+            @empty
+                <li>no unallocated team members</li>
+            @endforelse
         </ul>
+        <x-heading>Teams</x-heading>
         <div class="grid grid-cols-2 gap-4 mb-4">
             @foreach($teams as $index => $team)
                 <x-team :label="'Team ' . (++$index)" :index="$index" :team="$team" :allMembers="$members"/>

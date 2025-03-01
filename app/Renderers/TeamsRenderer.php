@@ -19,10 +19,20 @@ class TeamsRenderer
         $members = $this->memberService->getAugmented();
         $teams = $this->teamService->getTeams();
         $allocatedMembers = $this->teamService->getAllocatedMembers();
-        $unallocatedMembers = collect($members)
-            ->filter(fn (array $member, int $key) => !in_array($key, $allocatedMembers))
-            ->toArray();
+        $unallocatedMembers = $this->getUnallocatedMembers($members, $allocatedMembers);
 
         return view('teams', compact('members', 'teams', 'unallocatedMembers'));
+    }
+
+    /**
+     * @param array<int, array{name: string, irating: int}> $members
+     * @param int[] $allocatedMembers
+     * @return array<int, array{name: string, irating: int}>
+     */
+    private function getUnallocatedMembers(array $members, array $allocatedMembers): array
+    {
+        return collect($members)
+            ->only(array_diff(array_keys($members), $allocatedMembers))
+            ->toArray();
     }
 }

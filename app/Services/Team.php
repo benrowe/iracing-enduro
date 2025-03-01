@@ -129,9 +129,17 @@ class Team
      * @param int[][] $teams
      * @param int[] $newMembers
      * @return int[][]
+     * @throws TeamException
      */
     private function allocateNewTeamMembers(array $teams, array $newMembers): array
     {
+        if ($teams === []) {
+            throw new TeamException('No teams to allocate members to');
+        }
+
+        if ($newMembers === []) {
+            return $teams;
+        }
         // Calculate current team averages
         $currentTeamAverages = array_map(static function ($team) {
             if ($team === []) {
@@ -151,7 +159,7 @@ class Team
             $currentTeamAverages[$lowestIndex] = array_sum($teams[$lowestIndex]) / count($teams[$lowestIndex]);
         }
 
-        return $teams;
+        return array_map('array_values', $teams);
     }
 
     /**

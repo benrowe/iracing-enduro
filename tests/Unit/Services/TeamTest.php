@@ -145,4 +145,55 @@ class TeamTest extends TestCase
 
         $team->deleteMember(0, 1);
     }
+
+    public function testCantAutoAllocateWithZeroTeams(): void
+    {
+        Cache::put('memberIds', [1, 2, 3]);
+        $team = $this->app->make(Team::class);
+        $this->expectException(TeamException::class);
+        $this->expectExceptionMessage('No teams to allocate members to');
+        $team->autoAllocateNewMembers();
+    }
+
+    public function testCantAutoAllocateWithZeroMembers(): void
+    {
+        Cache::put('teams', [new TeamEntity([])]);
+        $team = $this->app->make(Team::class);
+        $team->autoAllocateNewMembers();
+        $this->assertCount(0, $team->getTeam(0)->members);
+    }
+
+    public function testCanAutoAllocateNewTeams(): void
+    {
+        Cache::put('memberIds', [1, 2, 3]);
+        Cache::put('members', [
+            1 => ['name' => 'Member 1', 'irating' => 1234],
+            2 => ['name' => 'Member 2', 'irating' => 1902],
+            3 => ['name' => 'Member 3', 'irating' => 1530],
+        ]);
+        Cache::put('teams', [new TeamEntity([]), new TeamEntity([])]);
+        $team = $this->app->make(Team::class);
+        $team->autoAllocateNewMembers();
+        $this->assertCount(2, $team->getTeam(0)->members);
+        $this->assertCount(1, $team->getTeam(1)->members);
+        $this->assertSame([1, 3], $team->getTeam(0)->members);
+        $this->assertSame([2], $team->getTeam(1)->members);
+    }
+
+    public function testCanAllocateNewMembersToExistingTeams(): void
+    {
+        Cache::put('memberIds', [1, 2, 3]);
+        Cache::put('members', [
+            1 => ['name' => 'Member 1', 'irating' => 1234],
+            2 => ['name' => 'Member 2', 'irating' => 1902],
+            3 => ['name' => 'Member 3', 'irating' => 1530],
+        ]);
+        Cache::put('teams', [new TeamEntity([1]), new TeamEntity([2])]);
+        $team = $this->app->make(Team::class);
+        $team->autoAllocateNewMembers();
+        $this->assertCount(2, $team->getTeam(0)->members);
+        $this->assertCount(1, $team->getTeam(1)->members);
+        $this->assertSame([1, 3], $team->getTeam(0)->members);
+        $this->assertSame([2], $team->getTeam(1)->members);
+    }
 }

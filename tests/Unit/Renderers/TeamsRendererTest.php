@@ -81,6 +81,6 @@ class TeamsRendererTest extends TestCase
         $xpath = new DOMXPath($dom);
         // query the #unallocated-members ul element and get the li element within
         $li = $xpath->query('//ul[@id="unallocated-members"]//li')->item(0);
-        $this->assertNull($li);
+        $this->assertSame('no unallocated team members', $li->textContent);
     }
 }
