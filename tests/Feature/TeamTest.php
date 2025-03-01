@@ -97,7 +97,7 @@ class TeamTest extends TestCase
         // Assert the teams state
         $teams = Cache::get('teams');
         // assert the count of the team members = 5
-        $this->assertCount(5, $teams[0]->members + $teams[1]->members);
+        $this->assertCount(5, array_merge($teams[0]->members, $teams[1]->members));
     }
 
     public function testCanResetTeams(): void

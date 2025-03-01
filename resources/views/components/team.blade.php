@@ -26,7 +26,7 @@
     </ul>
     @if($team->members)
         <?php $ratings = array_map(fn($id) => $allMembers[$id]['irating'], $team->members); ?>
-        Avg: {{ array_sum($ratings) / count($team->members) }}
+        Avg: {{ round(array_sum($ratings) / count($team->members)) }}
     @endif
 
 </div>

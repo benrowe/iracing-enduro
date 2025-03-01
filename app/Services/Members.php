@@ -48,7 +48,7 @@ class Members
     }
 
     /**
-     * @return array{name: string, irating: int}
+     * @return array<int, array{name: string, irating: int}>
      */
     public function getAugmented(): array
     {
