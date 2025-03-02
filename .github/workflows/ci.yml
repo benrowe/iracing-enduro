@@ -57,8 +57,8 @@ jobs:
       - name: Install Composer Dependencies
         run: composer install --no-interaction --prefer-dist
 
-#      - name: Copy .env
-#        run: cp .env.ci .env
+      - name: Copy .env
+        run: cp .env.ci .env
 
       - name: Generate Application Key
         run: php artisan key:generate
@@ -70,4 +70,4 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright Tests
-        run: npx playwright test:ci
+        run: npx playwright test
