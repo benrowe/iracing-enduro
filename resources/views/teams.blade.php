@@ -30,9 +30,12 @@
                 @forelse($unallocatedMembers as $id=>$detail)
                     <li>
                         <x-member :member="$id" :allMembers="$unallocatedMembers"></x-member>
-                        @foreach($teams as $index=> $team)
-                            <a hx-post="{{ route(RouteNames::TEAMS_MEMBERS_STORE, ['index' => ++$index, 'id' => $id]) }}" class="bg-red-600 text-white px-2 py-1 rounded-lg hover:bg-red-700 transition duration-300 text-sm cursor-pointer">{{ $index }}</a>
-                        @endforeach
+                        <span class="text-sm">
+                            Add to team
+                            @foreach($teams as $index=> $team)
+                                <a hx-post="{{ route(RouteNames::TEAMS_MEMBERS_STORE, ['index' => ++$index, 'id' => $id]) }}" class="bg-red-600 text-white px-2 py-1 rounded-lg hover:bg-red-700 transition duration-300 text-sm cursor-pointer">{{ $index }}</a>
+                            @endforeach
+                        </span>
                     </li>
                 @empty
                     <li>no unallocated team members</li>
@@ -54,11 +57,11 @@
 
 
         <a href="{{ route(RouteNames::MEMBERS_REFRESH) }}" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300 cursor-pointer">
-            <x-icon class="i-mdi-refresh" /> Reload Member Stats
+            <x-icon class="i-mdi-refresh" /> Reload Member Stats (from iRacing)
         </a>
 
         <a hx-post="{{ route(RouteNames::TEAMS_RESET) }}" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300 cursor-pointer">
-            <x-icon class="i-mdi-refresh" /> Reset Teams
+            <x-icon class="i-mdi-refresh" /> Reset Everything!
         </a>
         </div>
         <div id="content-spinner" class="htmx-indicator absolute top-24 right-4 flex justify-center items-center opacity-0 transition-opacity duration-300">
