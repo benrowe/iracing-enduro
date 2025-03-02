@@ -60,7 +60,7 @@ class TeamsRendererTest extends TestCase
         $view = $teams->render();
         $this->assertInstanceOf(View::class, $view);
 
-        $this->assertStringContainsString('John Doe - 50', $view->toHtml());
+        $this->assertStringContainsString('John Doe (50)', $view->toHtml());
     }
 
     public function testAllocatedMembersAreNotDisplayedInUnallocated(): void
