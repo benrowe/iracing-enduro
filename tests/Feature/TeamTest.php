@@ -27,8 +27,8 @@ class TeamTest extends TestCase
         $this
             ->get(route(RouteNames::DASHBOARD))
             ->assertOk()
-            ->assertSee('Member 1 - 12345')
-            ->assertSee('Member 2 - 67890');
+            ->assertSee('Member 1 (12345)')
+            ->assertSee('Member 2 (67890)');
 
         // Add teams
 
@@ -36,8 +36,8 @@ class TeamTest extends TestCase
         $this
             ->get(route(RouteNames::DASHBOARD))
             ->assertOk()
-            ->assertSee('Member 1 - 12345')
-            ->assertSee('Member 2 - 67890')
+            ->assertSee('Member 1 (12345)')
+            ->assertSee('Member 2 (67890)')
             ->assertSee('Team 1')
             ->assertSee('Team 2');
     }

@@ -82,9 +82,10 @@ class TeamMemberTest extends TestCase
         Cache::put('members', [1 => ['name' => 'Member 1', 'irating' => 12345]]);
         $this
             ->delete(route(RouteNames::TEAMS_MEMBERS_DELETE, ['index' => 1, 'id' => 1]))
-            ->assertOk()
-            ->assertSee('Member 1 - 12345')
-            ->assertDontSee('Member 1 (12345)');
+            ->assertOk();
+
+        $team = Cache::get('teams')[0];
+        $this->assertCount(0, $team->members);
     }
 
     public function testDeleteTeamMemberNotFound(): void
