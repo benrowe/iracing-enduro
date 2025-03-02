@@ -24,3 +24,4 @@ yarn-error.log
 .phpstorm.meta.php
 _ide_helper*
 reports
+playwright.config.js
