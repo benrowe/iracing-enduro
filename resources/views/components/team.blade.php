@@ -30,7 +30,8 @@
                 <a
                     hx-delete="{{ route(\App\Enums\RouteNames::TEAMS_MEMBERS_DELETE, ['index' => $index, 'id' => $value]) }}"
                     hx-vals='{"_method": "DELETE"}'
-                    class="cursor-pointer"
+                    class="bg-gray-500 text-white px-2 py-1 rounded-lg hover:bg-gray-700 transition duration-300 text-sm cursor-pointer"
+                    title="Remove Member from team"
                 >
                     <x-icon class="i-mdi-trash-can" />
                 </a>
