@@ -12,7 +12,8 @@
         "php": "^8.2",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
-        "mwgg/iracing-php": "^1.6"
+        "mwgg/iracing-php": "^1.6",
+        "qruto/laravel-wave": "^0.9.1"
     },
     "require-dev": {
         "ext-dom": "*",
