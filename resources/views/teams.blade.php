@@ -4,7 +4,8 @@
 @extends('layouts.default')
 
 @section('content')
-    <div hx-boost="true" hx-target="#teams" hx-indicator="#content-spinner" hx-swap="innerHtml transition:true">
+    <div sse-connect="/sse" sse-swap="message"></div>
+    <div hx-boost="true" hx-target="#teams" hx-indicator="#content-spinner" hx-swap="innerHtml transition:true" hx-ext="sse">
     <x-fragment key="teams">
         <x-card>
             <x-slot:header>

@@ -1,4 +1,5 @@
-<script src="https://unpkg.com/htmx.org@2.0.3" defer></script>
+<script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+<script src="https://unpkg.com/htmx-ext-sse@2.2.2" defer></script>
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 <script>
     document.body.addEventListener('htmx:configRequest', (event) => {

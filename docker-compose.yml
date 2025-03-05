@@ -37,3 +37,7 @@ services:
             - php-fpm
         links:
             - php-fpm
+    redis:
+        container_name: ire_redis
+        image: "redis"
+        hostname: ire_redis
