@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('base')
-    <body class="h-screen flex flex-col bg-gray-50 env-{{ app()->environment() }}">
+    <body class="h-screen flex flex-col bg-gray-50 env-{{ app()->environment() }}" hx-ext="sse">
     <!-- Top Navigation -->
     <nav class="fixed top-0 left-0 w-full bg-gray-200 shadow-md p-4 flex justify-between items-center">
         <!-- Left-aligned navigation items with red button style -->

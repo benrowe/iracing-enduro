@@ -9,7 +9,9 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql
+    && docker-php-ext-install gd pdo pdo_mysql \
+    && pecl install redis \
+    && docker-php-ext-enable redis
 
 RUN pecl install pcov \
     && docker-php-ext-enable pcov
