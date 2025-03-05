@@ -4,9 +4,13 @@
     "scripts": {
         "build": "tailwindcss -i ./resources/css/app.css -o ./public/dist/output.css --watch",
         "build:ci": "tailwindcss -i ./resources/css/app.css -o ./public/dist/output.css --minify",
-        "hot-reload": "node bin/hot-reload.js"
+        "hot-reload": "node bin/hot-reload.js",
+        "test": "PORT=80 playwright test",
+        "test:ui": "PORT=80 playwright test --ui",
+        "test:ci": "PORT=8000 playwright test"
     },
     "devDependencies": {
+        "@playwright/test": "^1.50.1",
         "livereload": "^0.9.3",
         "tailwindcss": "^3.4.7"
     },
