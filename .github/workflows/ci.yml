@@ -1,4 +1,4 @@
-name: PHP Tests and Linters
+name: Continual Integration
 
 on:
   push:
