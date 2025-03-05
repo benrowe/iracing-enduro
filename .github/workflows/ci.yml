@@ -63,12 +63,13 @@ jobs:
       - name: Generate Application Key
         run: php artisan key:generate
 
-      - name: Verify app can run
-        run: |
-          php artisan serve --port=8000 --host=0.0.0.0 &
-          sleep 5
-          curl http://localhost:8000 -o /dev/null
-          cat storage/logs/laravel.log
+# use this to debug the laravel serve
+#      - name: Verify app can run
+#        run: |
+#          php artisan serve --port=8000 --host=0.0.0.0 &
+#          sleep 5
+#          curl http://localhost:8000 -o /dev/null
+#          cat storage/logs/laravel.log
 
       - name: Get installed Playwright version
         id: playwright-version
